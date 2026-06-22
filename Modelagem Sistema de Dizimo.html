@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-br"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Igreja Dízimo - Modelagem do Sistema (Layout Vertical)</title>
+    <!-- Bootstrap 5 + Icons + Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: #f4f7fc;
+            font-family: 'Segoe UI', Roboto, system-ui;
+        }
+        .section-title {
+            border-left: 5px solid #2c7da0;
+            padding-left: 1rem;
+            margin: 2rem 0 1.5rem 0;
+            font-weight: 600;
+            color: #1e4a6e;
+        }
+        .wireframe-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            padding: 1rem;
+            transition: transform 0.2s;
+            height: 100%;
+            border: 1px solid #dee2e6;
+            margin-bottom: 1.5rem;
+        }
+        .wireframe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+        }
+        .mock-screen {
+            background: #f8f9fa;
+            border-radius: 0.8rem;
+            padding: 1rem;
+            border: 1px solid #ced4da;
+            min-height: 260px;
+            display: flex;
+            flex-direction: column;
+        }
+        .mock-header {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: #2c3e66;
+        }
+        .qr-placeholder {
+            background: white;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #aaa;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+            color: #2c7da0;
+        }
+        .example-form {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        .badge-pix {
+            background: #005c8a;
+            color: white;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        footer {
+            background: #e9ecef;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border-radius: 1rem 1rem 0 0;
+        }
+        .table-mock {
+            font-size: 0.9rem;
+        }
+        .admin-total {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f7a3b;
+        }
+        /* Ajustes para layout vertical */
+        .single-col {
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .card-wireframe {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head><body><div class="container py-4 single-col"><!-- Header -->
+<div class="text-center mb-4">
+<h1 class="display-5 fw-bold text-primary"><i class="fas fa-church me-2"></i>Sistema de Dízimos e Ofertas</h1>
+<p class="lead">Modelagem, wireframes e exemplos de telas | Angular + Node + MongoDB (sem Mongoose)</p>
+<hr class="my-3 w-50 mx-auto"></div>
+<!-- Descrição resumida em cards verticais (agora empilhados) -->
+<div class="mb-5">
+<div class="wireframe-card">
+<div class="d-flex align-items-center gap-3"><i class="fas fa-user-plus fa-2x text-primary"></i>
+<div>
+<h5 class="mb-1">Cadastro de membro</h5>
+<p class="mb-0">Membro se registra com nome, e-mail e senha. Role <strong>member</strong> atribuída automaticamente.</p>
+</div>
+</div>
+</div>
+<div class="wireframe-card">
+<div class="d-flex align-items-center gap-3"><i class="fas fa-qrcode fa-2x text-primary"></i>
+<div>
+<h5 class="mb-1">QRCode da chave Pix</h5>
+<p class="mb-0">Chave fixa: <code>suaigreja@igreja.net</code> – exibida via QR Code e texto.</p>
+</div>
+</div>
+</div>
+<div class="wireframe-card">
+<div class="d-flex align-items-center gap-3"><i class="fas fa-chart-line fa-2x text-primary"></i>
+<div>
+<h5 class="mb-1">Gestão do Pastor (Admin)</h5>
+<p class="mb-0">Totalização de valores ofertados + lista completa de ofertas com motivação.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- ==================== WIREFRAMES (empilhados verticalmente) ==================== -->
+<h2 class="section-title"><i class="fas fa-drafting-compass me-2"></i> Wireframes das telas principais</h2>
+<!-- Wireframe 1: Login -->
+<div class="card-wireframe">
+<div class="wireframe-card">
+<div class="mock-screen">
+<div class="mock-header"><i class="fas fa-sign-in-alt me-1"></i> Login</div>
+<div class="mb-2"><input class="form-control form-control-sm" placeholder="E-mail" disabled="disabled" type="text"></div>
+<div class="mb-2"><input class="form-control form-control-sm" placeholder="Senha" type="password" disabled="disabled"></div>
+<button class="btn btn-sm btn-primary w-100" disabled="disabled">Entrar</button>
+<div class="mt-2 text-center small"><a href="#" class="text-decoration-none">Criar conta</a></div>
+</div>
+<div class="mt-2 text-muted small text-center">Tela de autenticação (login)</div>
+</div>
+</div>
+<!-- Wireframe 2: Cadastro -->
+<div class="card-wireframe">
+<div class="wireframe-card">
+<div class="mock-screen">
+<div class="mock-header"><i class="fas fa-user-plus me-1"></i> Cadastro</div>
+<div class="mb-1"><input class="form-control form-control-sm" placeholder="Nome completo" disabled="disabled" type="text"></div>
+<div class="mb-1"><input class="form-control form-control-sm" placeholder="E-mail" disabled="disabled" type="text"></div>
+<div class="mb-2"><input class="form-control form-control-sm" placeholder="Senha" disabled="disabled" type="text"></div>
+<button class="btn btn-sm btn-success w-100" disabled="disabled">Registrar</button></div>
+<div class="mt-2 text-muted small text-center">Membro → role member</div>
+</div>
+</div>
+<!-- Wireframe 3: Dashboard Membro (QRCode + Oferta) -->
+<div class="card-wireframe">
+<div class="wireframe-card">
+<div class="mock-screen">
+<div class="mock-header"><i class="fas fa-user me-1"></i> Painel Membro</div>
+<div class="text-center">
+<div class="qr-placeholder bg-light mx-auto mb-2"><i class="fas fa-qrcode fa-3x text-secondary"></i><br><span class="small">suaigreja@igreja.net</span></div>
+<p class="small text-muted mb-1">Chave Pix: suaigreja@igreja.net</p>
+</div>
+<div class="mt-1"><input class="form-control form-control-sm" placeholder="Valor R$" disabled="disabled" type="text"></div>
+<div class="mt-1"><textarea class="form-control form-control-sm" rows="1" placeholder="Motivação (ex: oração, gratidão)" disabled="disabled"></textarea></div>
+<button class="btn btn-sm btn-outline-primary w-100 mt-2" disabled="disabled">Registrar Oferta</button></div>
+<div class="mt-2 text-muted small text-center">Dashboard com histórico e registro de oferta</div>
+</div>
+</div>
+<!-- Wireframe 4: Dashboard Admin (Pastor) -->
+<div class="card-wireframe">
+<div class="wireframe-card">
+<div class="mock-screen">
+<div class="mock-header"><i class="fas fa-chalkboard-user me-1"></i> Painel Pastor</div>
+<div class="alert alert-success py-1 px-2 mb-2 text-center"><strong>Total ofertado:</strong> R$ 4.850,00</div>
+<div class="small">Últimas ofertas:</div>
+<ul class="small ps-3 mb-0">
+<li>João S. - R$ 200,00 (missões)</li>
+<li>Maria F. - R$ 500,00 (dízimo)</li>
+<li>Carlos M. - R$ 80,00 (pedido de oração)</li>
+</ul>
+</div>
+<div class="mt-2 text-muted small text-center">Visão completa + totalização das ofertas</div>
+</div>
+</div>
+<!-- ==================== EXEMPLOS HTML DAS PÁGINAS / FORMULÁRIOS (EMPILHADOS) ==================== -->
+<h2 class="section-title"><i class="fas fa-code me-2"></i> Exemplos HTML interativos (protótipo estático)</h2>
+<p class="text-muted mb-4">Abaixo são demonstrados os principais formulários e cards como apareceriam no sistema real (apenas simulação visual, sem back-end).</p>
+<!-- Formulário de Login -->
+<div class="example-form">
+<h4 class="mb-3"><i class="fas fa-key me-2 text-secondary"></i>Acesso / Login</h4>
+<form>
+<div class="mb-3"><label class="form-label">E-mail</label> <input type="email" class="form-control" placeholder="membro@igreja.com" value="membro@exemplo.com"></div>
+<div class="mb-3"><label class="form-label">Senha</label> <input type="password" class="form-control" placeholder="********" value="123456"></div>
+<button type="button" class="btn btn-primary w-100" onclick="alert('Simulação de login – integraria com JWT')">Entrar</button></form>
+<div class="mt-2 text-center"><a href="#">Ainda não tem conta? Cadastre-se</a></div>
+</div>
+<!-- Formulário de Cadastro -->
+<div class="example-form">
+<h4 class="mb-3"><i class="fas fa-address-card me-2 text-success"></i>Cadastro de Membro</h4>
+<form>
+<div class="mb-2"><label>Nome completo</label> <input type="text" class="form-control" placeholder="Ex: Joaquim Santos"></div>
+<div class="mb-2"><label>E-mail</label> <input type="email" class="form-control" placeholder="joaquim@email.com"></div>
+<div class="mb-2"><label>Senha</label> <input type="password" class="form-control" placeholder="mínimo 6 caracteres"></div>
+<button type="button" class="btn btn-success w-100" onclick="alert('Cadastro simulado – backend criaria usuário role=member')">Registrar</button></form></div>
+<!-- Painel Membro completo (QRCode + oferta + histórico) -->
+<div class="example-form">
+<h4 class="mb-3"><i class="fas fa-hand-holding-heart me-2 text-danger"></i>Painel do Membro</h4>
+<div class="text-center mb-3">
+<div class="bg-light p-3 rounded d-inline-block text-center">
+<div style="width: 130px; height: 130px; background: repeating-linear-gradient(45deg, #000, #000 5px, #fff 5px, #fff 10px); margin: 0 auto; display: flex; align-items: center; justify-content: center;"><span class="bg-white p-1 small fw-bold">PIX</span></div>
+<p class="mt-2 mb-0"><strong>suaigreja@igreja.net</strong></p>
+<span class="badge bg-secondary">Chave Pix oficial</span></div>
+</div>
+<form id="offeringFormMock">
+<div class="mb-3"><label class="form-label fw-semibold">Valor (R$)</label> <input type="number" step="0.01" class="form-control" placeholder="Ex: 50,00" id="mockAmount"></div>
+<div class="mb-3"><label class="form-label fw-semibold">Motivação / Descrição</label> <textarea class="form-control" rows="2" placeholder="Ex: Pedido de oração pela família, Dízimo mensal, Oferta de gratidão..."></textarea></div>
+<button type="button" class="btn btn-primary w-100" onclick="alert('Oferta registrada com sucesso! (simulação)')"> <i class="fas fa-donate"></i> Registrar Oferta </button></form><hr>
+<h6 class="mt-3"><i class="fas fa-history me-1"></i> Meu histórico de ofertas</h6>
+<div class="table-responsive">
+<table class="table table-sm table-bordered mt-2">
+<thead class="table-light">
+<tr>
+<th>Data</th>
+<th>Valor</th>
+<th>Motivação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01/06/2026</td>
+<td>R$ 120,00</td>
+<td>Dízimo mensal</td>
+</tr>
+<tr>
+<td>15/05/2026</td>
+<td>R$ 50,00</td>
+<td>Campanha de missões</td>
+</tr>
+<tr>
+<td>28/04/2026</td>
+<td>R$ 30,00</td>
+<td>Pedido de cura</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="alert alert-info small"><i class="fas fa-info-circle"></i> Ao registrar, o sistema armazena valor e motivação para o pastor.</div>
+</div>
+<!-- Painel do Pastor (Admin) -->
+<div class="example-form">
+<h4 class="mb-3"><i class="fas fa-church me-2 text-primary"></i>Painel do Pastor (Administrador)</h4>
+<div class="card mb-4 border-success">
+<div class="card-body text-center">
+<h5 class="card-title">Totalização Geral</h5>
+<div class="admin-total">R$ 4.850,00</div>
+<small class="text-muted">Somatório de todas as ofertas registradas</small></div>
+</div>
+<h5><i class="fas fa-list-ul me-1"></i> Todas as ofertas dos membros</h5>
+<div class="table-responsive">
+<table class="table table-hover table-striped">
+<thead class="table-dark">
+<tr>
+<th>Membro</th>
+<th>Data/Hora</th>
+<th>Valor</th>
+<th>Motivação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>João da Silva</td>
+<td>02/06/2026 10:32</td>
+<td>R$ 200,00</td>
+<td>Dízimo + agradecimento por emprego</td>
+</tr>
+<tr>
+<td>Maria Oliveira</td>
+<td>01/06/2026 18:15</td>
+<td>R$ 500,00</td>
+<td>Oferta de gratidão (cura)</td>
+</tr>
+<tr>
+<td>Carlos Menezes</td>
+<td>30/05/2026 09:45</td>
+<td>R$ 80,00</td>
+<td>Pedido de oração para família</td>
+</tr>
+<tr>
+<td>Elaine Souza</td>
+<td>28/05/2026 14:20</td>
+<td>R$ 1.200,00</td>
+<td>Dízimo mensal e oferta especial</td>
+</tr>
+<tr>
+<td>Rafael Lima</td>
+<td>25/05/2026 11:00</td>
+<td>R$ 150,00</td>
+<td>Agradecimento pela aprovação</td>
+</tr>
+<tr>
+<td>Ana Paula</td>
+<td>20/05/2026 09:30</td>
+<td>R$ 2.700,00</td>
+<td>Dízimo anual antecipado</td>
+</tr>
+</tbody>
+<tfoot class="table-light">
+<tr>
+<td colspan="2"><strong>Total geral das ofertas</strong></td>
+<td colspan="2"><strong>R$ 4.850,00</strong></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="mt-3 alert alert-secondary small"><i class="fas fa-database"></i> Os dados são armazenados em MongoDB (collection offerings). O admin visualiza via rota autenticada com role.</div>
+</div>
+<!-- Fluxo de dados / explicação final -->
+<div class="example-form">
+<h5><i class="fas fa-exchange-alt me-2"></i> Fluxo de dados (resumo técnico)</h5>
+<ol class="mb-3">
+<li>Membro se cadastra → login → vê QRCode com chave <code>suaigreja@igreja.net</code>.</li>
+<li>Membro realiza o PIX (externo ao sistema) e depois preenche o formulário de oferta informando <strong>valor + motivação</strong>.</li>
+<li>Backend (Node + MongoDB) registra oferta vinculada ao membro (relação memberId).</li>
+<li>Pastor (admin) visualiza total de todas as ofertas e a lista completa, podendo acompanhar motivações e valores.</li>
+</ol>
+<hr>
+<p class="text-muted small mb-0"><i class="fas fa-cogs"></i> Arquitetura: Frontend Angular SPA, API REST com Express, driver nativo MongoDB (sem Mongoose). Autenticação JWT com guardas de rota. Layout totalmente responsivo e empilhado.</p>
+</div>
+<!-- Rodapé --><footer><i class="fas fa-code-branch"></i> Modelagem para o sistema "Igreja Dízimo" | 2026 <br><small>Wireframes representam as telas principais: cadastro, login, dashboard do membro (QR + registro de oferta) e painel do pastor com totalização. Layout vertical com blocos empilhados.</small></footer></div>
+<!-- Bootstrap JS (opcional) -->
+<p>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</p></body></html>
