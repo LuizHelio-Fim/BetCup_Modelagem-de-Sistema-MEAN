@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>BetCup - Modelagem do Sistema de Apostas da Copa</title>
+    <!-- Bootstrap 5 + Icons + Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(180deg, #061b2d 0%, #0d2b4b 40%, #0f3d6a 100%);
+            color: #e9eff5;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        .section-title {
+            border-left: 5px solid #ffd166;
+            padding-left: 1rem;
+            margin: 2rem 0 1.5rem 0;
+            font-weight: 700;
+            color: #fff;
+        }
+        .card-wireframe,
+        .wireframe-card,
+        .info-card,
+        .example-card,
+        .structure-card,
+        .model-card,
+        .flow-card {
+            background: rgba(255,255,255,0.06);
+            border-radius: 1rem;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 1.4rem;
+            margin-bottom: 1.8rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .card-wireframe {
+            padding: 0.35rem 0.65rem 0.6rem;
+        }
+        .wireframe-card:hover,
+        .info-card:hover,
+        .example-card:hover,
+        .structure-card:hover,
+        .model-card:hover,
+        .flow-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 26px 60px rgba(0,0,0,0.24);
+        }
+        .mock-screen {
+            background: rgba(255,255,255,0.08);
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.14);
+            padding: 1rem;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .mock-header {
+            border-bottom: 1px solid rgba(255,255,255,0.18);
+            padding-bottom: 0.7rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #ffd166;
+        }
+        .badge-sport {
+            background: #1db954;
+            color: white;
+        }
+        .text-highlight {
+            color: #ffd166;
+        }
+        .table-mock {
+            font-size: 0.92rem;
+            color: #f5f7fb;
+        }
+        .admin-figure {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffd166;
+        }
+        .single-col {
+            max-width: 1080px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .structure-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .structure-list li {
+            padding: 0.65rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .structure-list li:last-child {
+            border-bottom: none;
+        }
+        .json-block {
+            background: rgba(0,0,0,0.45);
+            border-radius: 1rem;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #d7e3ff;
+            overflow-x: auto;
+        }
+        .status-badge {
+            background: rgba(255,209,102,0.15);
+            color: #ffd166;
+            border-radius: 999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.83rem;
+            font-weight: 700;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, rgba(29,185,84,0.95), rgba(3,46,59,0.9));
+        }
+        .header-card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 1.5rem;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.2);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .list-icon {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            color: #ffd166;
+            margin-right: 0.85rem;
+        }
+        footer {
+            background: rgba(255,255,255,0.08);
+            margin-top: 3rem;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border-radius: 1rem 1rem 0 0;
+            color: #d7e3ff;
+        }
+        .alert-card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 1rem;
+        }
+        .btn-gold {
+            background: #ffd166;
+            color: #08212f;
+            border: 1px solid #ffd166;
+        }
+        .btn-gold:hover {
+            background: #fff1b8;
+            color: #08212f;
+        }
+        .progress {
+            height: 0.9rem;
+            border-radius: 0.75rem;
+            background: rgba(255,255,255,0.14);
+        }
+    </style>
+</head>
+<body>
+<div class="container py-4 single-col">
+    <!-- Header Principal -->
+    <div class="header-card text-white text-center">
+        <div class="mb-3">
+            <i class="fas fa-futbol fa-3x text-highlight"></i>
+        </div>
+        <h1 class="display-5 fw-bold">BetCup</h1>
+        <p class="lead text-white-75">Modelagem do Sistema de Apostas da Copa | Angular + Node + MongoDB</p>
+        <p class="text-white-50">Prototipagem visual e documentação do fluxo de apostas, ranking e painel administrativo para um sistema esportivo.</p>
+    </div>
+
+    <!-- Cards Informativos -->
+    <h2 class="section-title"><i class="fas fa-thumbs-up me-2"></i>Visão Geral do Sistema</h2>
+    <div class="row gy-3">
+        <div class="col-12">
+            <div class="info-card d-flex gap-3 align-items-start">
+                <div class="list-icon"><i class="fas fa-user-check"></i></div>
+                <div>
+                    <h5>Cadastro/Login de usuário</h5>
+                    <p class="mb-0">Usuários criam contas, acessam seu painel e protegem o acesso com autenticação JWT.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="info-card d-flex gap-3 align-items-start">
+                <div class="list-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                <div>
+                    <h5>Registro de apostas</h5>
+                    <p class="mb-0">Apostadores registram palpites para jogos da Copa, visualizam status e acompanham ganhos de pontos.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="info-card d-flex gap-3 align-items-start">
+                <div class="list-icon"><i class="fas fa-trophy"></i></div>
+                <div>
+                    <h5>Ranking de jogadores</h5>
+                    <p class="mb-0">Ranking público com posições, pontuações e histórico de apostas para engajar os participantes.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="info-card d-flex gap-3 align-items-start">
+                <div class="list-icon"><i class="fas fa-cogs"></i></div>
+                <div>
+                    <h5>Painel administrativo</h5>
+                    <p class="mb-0">Admin monitora usuários, apostas e resultados oficiais, com controles para atualizar partidas.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="info-card d-flex gap-3 align-items-start">
+                <div class="list-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div>
+                    <h5>Gestão de jogos da Copa</h5>
+                    <p class="mb-0">Cadastro de partidas, definição de chaves e resultados abruptos para cálculo automático de pontos.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="info-card d-flex gap-3 align-items-start">
+                <div class="list-icon"><i class="fas fa-chart-bar"></i></div>
+                <div>
+                    <h5>Dashboard de estatísticas</h5>
+                    <p class="mb-0">Visão de desempenho com gráficos, totais de apostas e indicadores de engajamento do torneio.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wireframes das Telas Principais -->
+    <h2 class="section-title"><i class="fas fa-drafting-compass me-2"></i>Wireframes das Telas Principais</h2>
+    <div class="card-wireframe">
+        <div class="mock-screen">
+            <div class="mock-header"><i class="fas fa-sign-in-alt me-1"></i> Login</div>
+            <div class="mb-2"><input class="form-control form-control-sm" placeholder="E-mail" disabled></div>
+            <div class="mb-2"><input class="form-control form-control-sm" placeholder="Senha" type="password" disabled></div>
+            <button class="btn btn-sm btn-gold w-100" disabled>Entrar</button>
+            <div class="mt-2 text-center small text-white-50">Tela de autenticação segura para apostadores.</div>
+        </div>
+    </div>
+    <div class="card-wireframe">
+        <div class="mock-screen">
+            <div class="mock-header"><i class="fas fa-user-plus me-1"></i> Cadastro</div>
+            <div class="mb-1"><input class="form-control form-control-sm" placeholder="Nome" disabled></div>
+            <div class="mb-1"><input class="form-control form-control-sm" placeholder="E-mail" disabled></div>
+            <div class="mb-2"><input class="form-control form-control-sm" placeholder="Senha" type="password" disabled></div>
+            <button class="btn btn-sm btn-success w-100" disabled>Registrar</button>
+            <div class="mt-2 text-center small text-white-50">Formulário para novos jogadores entrarem no campeonato de apostas.</div>
+        </div>
+    </div>
+    <div class="card-wireframe">
+        <div class="mock-screen">
+            <div class="mock-header"><i class="fas fa-tachometer-alt me-1"></i> Dashboard do usuário</div>
+            <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge badge-sport">Próximos jogos</span>
+                    <span class="small text-white-50">Ranking Pessoal</span>
+                </div>
+                <div class="mb-2"><input class="form-control form-control-sm" placeholder="Palpite - Placar time A" disabled></div>
+                <div class="mb-2"><input class="form-control form-control-sm" placeholder="Palpite - Placar time B" disabled></div>
+                <button class="btn btn-sm btn-primary w-100" disabled>Apostar</button>
+            </div>
+            <div class="mt-3 small text-white-50">Resumo rápido: pontuação acumulada e próximos jogos disponíveis.</div>
+        </div>
+    </div>
+    <div class="card-wireframe">
+        <div class="mock-screen">
+            <div class="mock-header"><i class="fas fa-medal me-1"></i> Ranking</div>
+            <div class="small mb-2">Top 5 apostadores</div>
+            <ul class="list-unstyled small">
+                <li>1. Lucas M. — 1.980 pontos</li>
+                <li>2. Ana P. — 1.760 pontos</li>
+                <li>3. Bruno R. — 1.640 pontos</li>
+                <li>4. Carla S. — 1.520 pontos</li>
+                <li>5. Felipe N. — 1.430 pontos</li>
+            </ul>
+            <div class="text-white-50 small">Visão competitiva com atualização em tempo de apuração.</div>
+        </div>
+    </div>
+    <div class="card-wireframe">
+        <div class="mock-screen">
+            <div class="mock-header"><i class="fas fa-tools me-1"></i> Painel administrativo</div>
+            <div class="mb-3">
+                <div class="admin-figure">1.240</div>
+                <div class="small text-white-50">Usuários ativos</div>
+            </div>
+            <div class="mb-3">
+                <div class="admin-figure">8.920</div>
+                <div class="small text-white-50">Apostas registradas</div>
+            </div>
+            <button class="btn btn-sm btn-outline-light w-100" disabled>Editar resultado</button>
+            <div class="mt-2 small text-white-50">Controle de partidas, resultados oficiais e gerenciamento do torneio.</div>
+        </div>
+    </div>
+
+    <!-- Exemplos HTML Interativos -->
+    <h2 class="section-title"><i class="fas fa-code me-2"></i>Exemplos HTML Interativos</h2>
+    <p class="text-white-50">Protótipos estáticos simulando formulários, ranking e painel administrativo para o sistema BetCup.</p>
+
+    <div class="example-card">
+        <h4 class="mb-3"><i class="fas fa-key me-2 text-highlight"></i>Login</h4>
+        <form>
+            <div class="mb-3"><label class="form-label">E-mail</label><input type="email" class="form-control" id="loginEmail" placeholder="usuario@betcup.com"></div>
+            <div class="mb-3"><label class="form-label">Senha</label><input type="password" class="form-control" id="loginPassword" placeholder="********"></div>
+            <button type="button" class="btn btn-gold w-100" onclick="alert('Login simulado realizado com sucesso!')">Entrar</button>
+        </form>
+    </div>
+
+    <div class="example-card">
+        <h4 class="mb-3"><i class="fas fa-user-plus me-2 text-success"></i>Cadastro</h4>
+        <form>
+            <div class="mb-2"><label class="form-label">Nome</label><input type="text" class="form-control" placeholder="Ex: Rafael Souza"></div>
+            <div class="mb-2"><label class="form-label">E-mail</label><input type="email" class="form-control" placeholder="rafael@betcup.com"></div>
+            <div class="mb-2"><label class="form-label">Senha</label><input type="password" class="form-control" placeholder="Mínimo 6 caracteres"></div>
+            <button type="button" class="btn btn-success w-100" onclick="alert('Cadastro simulado concluído! Bem-vindo ao BetCup.')">Registrar</button>
+        </form>
+    </div>
+
+    <div class="example-card">
+        <h4 class="mb-3"><i class="fas fa-futbol me-2 text-primary"></i>Tela de Apostas</h4>
+        <div class="mb-3 p-3 bg-dark rounded border border-secondary text-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <strong>Brasil x Argentina</strong>
+                    <p class="mb-0 small text-white-50">Palpite de placar exato para o próximo grande duelo.</p>
+                </div>
+                <span class="badge badge-sport">Partida aberta</span>
+            </div>
+            <div class="row g-2">
+                <div class="col-6"><input type="number" min="0" class="form-control form-control-sm" id="bet1Home" placeholder="Placar Brasil"></div>
+                <div class="col-6"><input type="number" min="0" class="form-control form-control-sm" id="bet1Away" placeholder="Placar Argentina"></div>
+            </div>
+            <button type="button" class="btn btn-outline-light w-100 mt-3" onclick="submitBet('Brasil x Argentina', 'bet1Home', 'bet1Away')">Registrar aposta</button>
+        </div>
+        <div class="mb-3 p-3 bg-dark rounded border border-secondary text-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <strong>França x Inglaterra</strong>
+                    <p class="mb-0 small text-white-50">Defina os placares para a partida agendada.</p>
+                </div>
+                <span class="badge bg-warning text-dark">Pré-jogo</span>
+            </div>
+            <div class="row g-2">
+                <div class="col-6"><input type="number" min="0" class="form-control form-control-sm" id="bet2Home" placeholder="Placar França"></div>
+                <div class="col-6"><input type="number" min="0" class="form-control form-control-sm" id="bet2Away" placeholder="Placar Inglaterra"></div>
+            </div>
+            <button type="button" class="btn btn-outline-light w-100 mt-3" onclick="submitBet('França x Inglaterra', 'bet2Home', 'bet2Away')">Registrar aposta</button>
+        </div>
+        <div class="alert alert-info alert-card text-white-75"><i class="fas fa-info-circle"></i> Preencha ambos os campos com o placar previsto para salvar cada palpite corretamente.</div>
+    </div>
+
+    <div class="example-card">
+        <h4 class="mb-3"><i class="fas fa-trophy me-2 text-highlight"></i>Ranking</h4>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered table-mock">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Posição</th>
+                        <th>Nome</th>
+                        <th>Pontuação</th>
+                        <th>Vitórias</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Lucas M.</td><td>1.980</td><td>32</td></tr>
+                    <tr><td>2</td><td>Ana P.</td><td>1.760</td><td>29</td></tr>
+                    <tr><td>3</td><td>Bruno R.</td><td>1.640</td><td>27</td></tr>
+                    <tr><td>4</td><td>Carla S.</td><td>1.520</td><td>25</td></tr>
+                    <tr><td>5</td><td>Felipe N.</td><td>1.430</td><td>23</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="progress mb-2"><div class="progress-bar bg-success" role="progressbar" style="width: 76%"></div></div>
+        <small class="text-white-50">Rankings atualizados após cada rodada concluída.</small>
+    </div>
+
+    <div class="example-card">
+        <h4 class="mb-3"><i class="fas fa-cogs me-2 text-warning"></i>Painel Admin</h4>
+        <div class="row g-3 mb-3">
+            <div class="col-sm-4"><div class="p-3 bg-dark rounded text-center"><div class="h3 text-highlight">1.240</div><div class="small text-white-50">Usuários ativos</div></div></div>
+            <div class="col-sm-4"><div class="p-3 bg-dark rounded text-center"><div class="h3 text-highlight">8.920</div><div class="small text-white-50">Apostas totais</div></div></div>
+            <div class="col-sm-4"><div class="p-3 bg-dark rounded text-center"><div class="h3 text-highlight">64</div><div class="small text-white-50">Jogos cadastrados</div></div></div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-borderless table-mock">
+                <thead class="table-dark">
+                    <tr><th>Jogo</th><th>Status</th><th>Ação</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Brasil x Argentina</td><td>Finalizado</td><td><button class="btn btn-sm btn-outline-light" onclick="alert('Visualizando resultado final da partida.')">Ver resultado</button></td></tr>
+                    <tr><td>França x Inglaterra</td><td>Apostas abertas</td><td><button class="btn btn-sm btn-gold" onclick="alert('Apostas encerradas para esta partida.')">Encerrar apostas</button></td></tr>
+                    <tr><td>Brasil x França</td><td>Agendado</td><td><button class="btn btn-sm btn-outline-light" onclick="alert('Apostas abertas para o próximo jogo.')">Abrir apostas</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Estrutura de Diretórios -->
+    <h2 class="section-title"><i class="fas fa-folder-open me-2"></i>Estrutura de Diretórios</h2>
+    <div class="row gy-3">
+        <div class="col-md-6">
+            <div class="structure-card">
+                <h5 class="mb-3"><i class="fas fa-layer-group me-2"></i>Frontend</h5>
+                <ul class="structure-list text-white-75">
+                    <li><strong>src/app/pages</strong> - telas principais do Angular</li>
+                    <li><strong>src/app/components</strong> - cards, layouts e widgets</li>
+                    <li><strong>src/app/services</strong> - consumo de API e lógica de apostas</li>
+                    <li><strong>src/app/guards</strong> - proteção de rotas e roles</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="structure-card">
+                <h5 class="mb-3"><i class="fas fa-server me-2"></i>Backend</h5>
+                <ul class="structure-list text-white-75">
+                    <li><strong>controllers</strong> - endpoints de usuários, apostas e jogos</li>
+                    <li><strong>routes</strong> - rotas REST organizadas por domínio</li>
+                    <li><strong>middlewares</strong> - JWT, validação e autorização</li>
+                    <li><strong>repositories</strong> - acesso ao MongoDB</li>
+                    <li><strong>config</strong> - variáveis de ambiente e conexões</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modelagem MongoDB -->
+    <h2 class="section-title"><i class="fas fa-database me-2"></i>Modelagem MongoDB</h2>
+    <div class="model-card">
+        <h5 class="mb-3 text-highlight">Collections e exemplos JSON</h5>
+        <div class="mb-3">
+            <h6>users</h6>
+            <div class="json-block">
+{
+  "_id": "641f6a1c0b1234ab56cd7890",
+  "name": "Lucas Martins",
+  "email": "lucas@betcup.com",
+  "passwordHash": "...",
+  "role": "member",
+  "score": 1980,
+  "createdAt": "2026-05-27T14:12:00Z"
+}
+            </div>
+        </div>
+        <div class="mb-3">
+            <h6>games</h6>
+            <div class="json-block">
+{
+  "_id": "645f7c2a7d8910fa23bc4567",
+  "homeTeam": "Brasil",
+  "awayTeam": "Argentina",
+  "date": "2026-11-24T19:00:00Z",
+  "stage": "Semi-final",
+  "result": {
+    "homeScore": 2,
+    "awayScore": 1
+  },
+  "status": "finalized"
+}
+            </div>
+        </div>
+        <div class="mb-3">
+            <h6>bets</h6>
+            <div class="json-block">
+{
+  "_id": "648a5b3c9e2467b1f2345678",
+  "userId": "641f6a1c0b1234ab56cd7890",
+  "gameId": "645f7c2a7d8910fa23bc4567",
+  "predicted": {
+    "homeScore": 2,
+    "awayScore": 1
+  },
+  "points": 10,
+  "status": "confirmed",
+  "createdAt": "2026-12-01T10:05:00Z"
+}
+            </div>
+        </div>
+        <div>
+            <h6>rankings</h6>
+            <div class="json-block">
+{
+  "_id": "649b9d4f8b345c2a78de9012",
+  "userId": "641f6a1c0b1234ab56cd7890",
+  "position": 1,
+  "score": 1980,
+  "wins": 32,
+  "updatedAt": "2026-12-18T21:00:00Z"
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- Modelagem Técnica -->
+    <h2 class="section-title"><i class="fas fa-lightbulb me-2"></i>Modelagem Técnica</h2>
+    <div class="flow-card">
+        <div class="mb-3">
+            <h5>Arquitetura</h5>
+            <p class="mb-2 text-white-75">O BetCup é concebido como:</p>
+            <ul class="text-white-75">
+                <li><strong>Angular SPA</strong> para interface rica e navegação fluida.</li>
+                <li><strong>API REST Express</strong> para rotas de apostas, jogos, usuários e ranking.</li>
+                <li><strong>MongoDB</strong> como banco de dados NoSQL para collections de users, games, bets e rankings.</li>
+                <li><strong>JWT Authentication</strong> para segurança de sessão e proteção de rotas.</li>
+            </ul>
+        </div>
+        <div>
+            <h5>Componentes principais</h5>
+            <p class="text-white-75 mb-1">O protótipo considera:</p>
+            <ul class="text-white-75">
+                <li>Login / cadastro com validação de formulário e flow de onboarding.</li>
+                <li>Painel de apostas com palpites por partida e histórico.</li>
+                <li>Ranking global com pontuação acumulada.</li>
+                <li>Painel administrativo para gerenciar resultados e jogos.</li>
+                <li>Dashboard de estatísticas para supervisão do torneio.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Fluxo do Sistema -->
+    <h2 class="section-title"><i class="fas fa-exchange-alt me-2"></i>Fluxo do Sistema</h2>
+    <div class="flow-card">
+        <ol class="text-white-75 mb-0">
+            <li>Usuário cria conta no BetCup e define credenciais.</li>
+            <li>Realiza login e acessa o painel de apostas.</li>
+            <li>Visualiza jogos da Copa disponíveis para palpitar.</li>
+            <li>Registra aposta informando placar previsto para cada partida.</li>
+            <li>Administrador informa resultado oficial das partidas.</li>
+            <li>Sistema calcula pontuação com base na precisão do palpite.</li>
+            <li>Ranking é atualizado e os usuários acompanham sua posição.</li>
+        </ol>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <i class="fas fa-soccer-ball me-1"></i> Modelagem do sistema BetCup | 2026 <br>
+        <small>Protótipo visual de documentação para sistema de apostas esportivas com Angular, Node, MongoDB e JWT.</small>
+    </footer>
+</div>
+
+<script>
+    function submitBet(match, homeId, awayId) {
+        const home = document.getElementById(homeId).value;
+        const away = document.getElementById(awayId).value;
+        if (home === '' || away === '') {
+            alert('Preencha ambos os palpites para ' + match + '.');
+            return;
+        }
+        alert('Aposta registrada para ' + match + ': ' + home + ' x ' + away + '.');
+    }
+</script>
+
+<!-- Bootstrap JS (opcional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
